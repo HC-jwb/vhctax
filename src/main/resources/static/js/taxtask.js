@@ -472,6 +472,30 @@ function getCheckedTaskList() {
 	});
 	return chkList;
 }
+function downloadPDFexport(actionButton) {
+	DialogUI.confirmOk("Export PDF files",
+			function(result) {
+				if (result) {
+					$actionButton.addClass("loading");
+					TaxServiceApi.downloadPDF(chkIdList, function(
+							response) {
+						if (response.success) {
+//							listTaxPaymentTask();
+						} else {
+							alert(response.status.description);
+						}
+						setTimeout(function() {
+							$actionButton.removeClass("loading");
+						}, 300);
+					});
+				}
+			});
+
+	
+	
+	
+}
+
 function removeCheckedTask(actionButton) {
 	var chkIdList = getAllCheckTaskIds();
 	if (chkIdList.length == 0)
@@ -802,7 +826,7 @@ $(function() {
 	});
 	$actionButtons.find(".download.button").click(function() {
 		console.log("Hello")
-		downloadCheckedTask(this);
+		downloadPDFexport(this);
 	});
 
 	DialogUI.init();/* call only when I want to use dialog ui */
