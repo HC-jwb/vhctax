@@ -8,7 +8,7 @@ var TaxServiceApi = {
 	saveTaxPaymentTaskUri: 'task/save',
 	listPaymentTaskUri: 'task/list',
 	removePaymentTaskUri:'task/remove',
-	downloadPDFUri:'task/download',
+	downloadExcelUri:'task/excel',
 	taskCompleteUri:'task/complete',
 	savePaymentTemplate: function(tmplJson, callback) {
 		Api.postJson(this.apiBase + this.saveTemplateUri, tmplJson, callback, function(response) {
@@ -40,11 +40,23 @@ var TaxServiceApi = {
 			callback({success:false, status: {description: 'Failed due to communication error!'}});
 		});
 	},
+	
+	// 'task/list'
 	listPaymentTask: function(searchCond, callback) {
 		Api.postJson(this.apiBase + this.listPaymentTaskUri, searchCond, callback, function(response) {
 			callback({success:false, status: {description: 'Failed due to communication error!'}});
 		});
 	},
+	
+	// for excel test
+	downloadExcelFile: function(searchCond, callback) {
+		console.log("in tax.api.js")
+		Api.postJson(this.apiBase + this.listPaymentTaskUri, searchCond, callback, function(response) {
+			callback({success:false, status: {description: 'Failed due to communication error!'}});
+		});
+		
+	},
+	
 	removePaymentTask: function(taskIdList, callback) {
 		Api.postJson(this.apiBase + this.removePaymentTaskUri, taskIdList, callback, function(response) {
 			callback({success:false, status: {description: 'Failed due to communication error!'}});

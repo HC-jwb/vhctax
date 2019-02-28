@@ -345,7 +345,7 @@ function hideRegistModal() {
 function listTaxPaymentTask() {
 	$tableLoader.addClass("active");
 	var actionParam = $actionFrm.form('get values');
-	TaxServiceApi.listPaymentTask(actionParam, function(response) {
+	TaxServiceApi.listPaymentTask(actionParam, function(response) { // actionParam을 Rest api로 던져주고, DB처리 후 받은 response를 이용해서 table UI building.
 		console.log(actionParam);
 		if (response.success) {
 			buildTaskTable(response.payload);
@@ -357,6 +357,22 @@ function listTaxPaymentTask() {
 		}, 400);
 	});
 }
+
+//For export Excel file test
+function downloadExcelFile() {
+	var actionParam = $actionFrm.form('get values');
+	TaxServiceApi.downloadExcelFile(actionParam, function(response) {
+		console.log(actionParam);
+		
+		if (response.success) {
+//			buildTaskTable(response.payload);	
+		} else {
+			console.log(response.status.description);
+		}
+	});
+}
+
+
 function buildTaskTable(taskList) {
 	var $TBODY = $taskListTable.find(">tbody").empty();
 	var $TR = $("<tr></tr>"), $clonedTR;
@@ -467,18 +483,18 @@ function getCheckedTaskList() {
 	});
 	return chkList;
 }
-function downloadPDFexport(actionButton) {
-	var $actionButton = $(actionButton);
-
-	TaxServiceApi.downloadPDF(chkIdList, function(response) {
-		if (response.success) {
-			// listTaxPaymentTask();
-		} else {
-			alert(response.status.description);
-		}
-	});
-
-}
+//function downloadPDFexport(actionButton) {
+//	var $actionButton = $(actionButton);
+//
+//	TaxServiceApi.downloadPDF(chkIdList, function(response) {
+//		if (response.success) {
+//			// listTaxPaymentTask();
+//		} else {
+//			alert(response.status.description);
+//		}
+//	});
+//
+//}
 
 function removeCheckedTask(actionButton) {
 	var chkIdList = getAllCheckTaskIds();
@@ -574,7 +590,7 @@ function onTaxReceiptUploadCompleted(response) {
 		alert(response.status.description);
 	}
 }
-var $registModal, $editModal, $photoPopupModal, $actionFrm, $taskListTable, $tableLoader, $actionButtons, $registFrm, $certRegistFrm, $taxRegistFrm, $kirRegistFrm, $templateDropdown, certValidTill, taxValidTill, kirValidTill, editValidTill;
+var $registModal, $editModal, $photoPopupModal, $actionFrm, $taskListTable, $tableLoader, $actionButtons, $registFrm, $certRegistFrm, $taxRegistFrm, $kirRegistFrm, $templateDropdown, $downloadMenu, certValidTill, taxValidTill, kirValidTill, editValidTill;
 $(function() {
 	$actionFrm = $("#actionFrm");
 	$actionButtons = $("#actionButtons");
@@ -588,6 +604,7 @@ $(function() {
 	$taxRegistFrm = $registFrm.find("#taxRegistFrm");
 	$kirRegistFrm = $registFrm.find("#kirRegistFrm");
 	$templateDropdown = $("#templateDropdown");
+	$downloadMenu = $("#download-menu");
 	$registModal.modal({
 		dimmerSettings : {
 			opacity : 0.3
@@ -808,9 +825,14 @@ $(function() {
 	$actionButtons.find(".complete.button").click(function() {
 		updateTaskCompletePaid(this);
 	});
-	$actionButtons.find(".download.button").click(function() {
-		console.log("Hello");
-		downloadPDFexport(this);
+
+	$downloadMenu.find(".excel-button").click(function() {
+		console.log("EXCEL download button is clicked");
+		downloadExcelFile();
+	});
+	
+	$downloadMenu.find(".pdf-button").click(function() {
+		console.log("PDF download button is clicked");
 	});
 
 	DialogUI.init();/* call only when I want to use dialog ui */

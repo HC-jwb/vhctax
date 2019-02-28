@@ -129,6 +129,24 @@ public class VehicleTaxManagementController {
 		}
 		return response;
 	}
+	
+/// excel test
+	@RequestMapping("task/excel")
+	public ResponseContainer<List<VehicleTaxTask>> exportExcelTask(@RequestBody Map<String, String> searchCond) {
+		ResponseContainer<List<VehicleTaxTask>> response = new ResponseContainer<>();
+		//logger.info(searchCond.toString());
+		String taskType = searchCond.get("taskType");
+		String fromDate = searchCond.get("fromDate");
+		String toDate = searchCond.get("toDate");
+		try {
+			response.setPayload(vhcTaxManagementService.listTaxTaskList(taskType, fromDate, toDate));
+			response.setSuccess(true);
+		} catch(Exception e) {
+			response.setStatus(new ResponseStatus(e.getMessage()));
+		}
+		return response;
+	}
+	
 	@PostMapping("task/remove")
 	public ResponseContainer<Void> removePaymentTaskList(@RequestBody List<Long> taskIdList) {
 		ResponseContainer<Void> response = new ResponseContainer<>();

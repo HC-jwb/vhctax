@@ -91,6 +91,8 @@ public class VehicleTaxManagementService {
 		} else {
 			typeList = Arrays.asList(taskType);
 		}
+		System.out.println("in listTaxTaskList " + taxPaymentTaskRepository.listTaxTaskList(typeList, fromDate, toDate));
+		
 		return taxPaymentTaskRepository.listTaxTaskList(typeList, fromDate, toDate);
 	}
 	@Transactional
