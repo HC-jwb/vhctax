@@ -1,0 +1,57 @@
+body {
+background:url(../images/hc-hdbg_1.jpg) no-repeat center center fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+}
+body > .grid {height: 100%;}
+.p-divider {padding: 0 5px;}
+.ui.divider {margin: .8rem 0;}
+.hc-fms.login.column {max-width: 380px;}
+.hc-login-header {text-align: center;	margin: 1.2rem 0.5rem;}
+.hc-login-header .ui.hc-fms-logo.image {
+width: 120px; height: 40px;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+}
+.hc-login-header .hc-title {font-size: 1.8rem;color: rgba(0,0,0, 0.7);float: right;}
+.hc-login-bottom {margin: 0 1rem 1rem 1rem;font-size: 0.9rem;text-align: right;}
+.hc-login-bottom .ui.remember-me.checkbox {font-size: 0.85rem;line-height: 20px;}
+.hc-small-text {font-size: 0.85rem;}
+.hc-ur-pos {font-size: 0.9rem;}
+.hc-spacer {margin: 0.5rem;}
+.ui.grid > .ui.login.segment.column {background: rgba(255, 255, 255, 0.9);	padding: 0.5rem 2rem 0.5rem; 2rem;}
+.ui.form .field.error input[type=text],  .ui.form .field.error input[type=password] {background: transparent;}
+.ui.form .field.field input[type=text],  .ui.form .field.field input[type=password]{
+border-radius: 0;
+border: 0;
+outline: 0;
+margin-left: 0.5rem;
+margin-right: 0.5rem;
+background: transparent;
+border-bottom: 1px solid #888;
+}
+.ui.login.form .field.field input:-webkit-autofill,
+.ui.login.form .field.field input:-webkit-autofill:focus,
+.ui.login.form .field.field input:-webkit-autofill:hover {
+-webkit-box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.9) inset!important;
+box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.9) inset!important;
+border-color: #888!important;
+}
+
+.hc-fms-footer {
+position: absolute;
+left: 0;
+bottom: 0;
+padding-bottom: 1rem;
+width: 100%;
+color: white;
+text-align: center;
+}
+.hc-fms-footer > * {margin: 0 1rem; font-size: 0.95rem;}
+.hc-fms-footer img{height: 21px;}
+.hc-fms-footer a {color: white;	text-decoration: underline;}
+.hc-fms-footer a:hover {color: rgba(200, 200, 200, 1);} 
