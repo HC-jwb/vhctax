@@ -801,6 +801,7 @@ $(function() {
 		updateTaskCompletePaid(this);
 	});
 	$actionButtons.find(".download.button").click(function() {
+		console.log("Hello")
 		downloadCheckedTask(this);
 	});
 
