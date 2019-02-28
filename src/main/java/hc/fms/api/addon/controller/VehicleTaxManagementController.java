@@ -140,6 +140,18 @@ public class VehicleTaxManagementController {
 		}
 		return response;
 	}
+	@PostMapping("task/download")
+	public ResponseContainer<Void> downloadPDFfile() {
+		ResponseContainer<Void> response = new ResponseContainer<>();
+		try {
+			vhcTaxManagementService.downloadPDFfile();
+			response.setSuccess(true);
+		} catch(Exception e) {
+			response.setStatus(new ResponseStatus(e.getMessage()));
+		}
+		return response;
+	}
+	
 	@PostMapping("task/complete")
 	public ResponseContainer<Void> makePaymentTaskListPaid(@RequestBody List<Long> taskIdList) {
 		ResponseContainer<Void> response = new ResponseContainer<>();

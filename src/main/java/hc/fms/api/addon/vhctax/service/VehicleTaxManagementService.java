@@ -111,4 +111,10 @@ public class VehicleTaxManagementService {
 	public void makePaymentTaskListPaid(List<Long> taskIdList) {
 		for(Long id : taskIdList) taxPaymentTaskRepository.updatePaymentTaskPaid(id);
 	}
+	@Transactional
+	public void downloadPDFfile() {
+		System.out.print("Hello");
+	}
+	
+	
 }

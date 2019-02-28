@@ -490,10 +490,8 @@ function downloadPDFexport(actionButton) {
 					});
 				}
 			});
-
 	
-	
-	
+	 
 }
 
 function removeCheckedTask(actionButton) {

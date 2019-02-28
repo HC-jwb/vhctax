@@ -57,7 +57,7 @@ var TaxServiceApi = {
 		});
 	},
 	downloadPDF: function(taskIdList, callback) {
-		Api.postJson(this.apiBase + this.removePaymentTaskUri, taskIdList, callback, function(response) {
+		Api.postJson(this.apiBase + this.downloadPDFUri, taskIdList, callback, function(response) {
 			callback({success:false, status: {description: 'Failed due to communication error!'}});
 		});
 	} //for Test now
