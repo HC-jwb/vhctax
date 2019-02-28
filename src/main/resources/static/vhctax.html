@@ -1,293 +1,530 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  	<link rel="stylesheet" type="text/css" href="/css/nprogress.css">
-  	<link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/modules.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/scrolltabs.css">
-	<link rel="stylesheet" type="text/css" href="/css/report.css">
-	<link rel="stylesheet" type="text/css" href="/css/taxtask.css">
-	<title>Next Generation Smart FMS Platform</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<link rel="stylesheet" type="text/css" href="/css/nprogress.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="/css/modules.min.css">
+<link rel="stylesheet" type="text/css" href="/css/scrolltabs.css">
+<link rel="stylesheet" type="text/css" href="/css/report.css">
+<link rel="stylesheet" type="text/css" href="/css/taxtask.css">
+<title>Next Generation Smart FMS Platform</title>
 </head>
 <body>
-<div class="ui fixed main secondary small blue inverted menu" id="topMenu">
-	<div class="ui container">
-		<a class="tracking enabled item"><i class="road icon"></i> Vehicle Tracking</a>
-		<a class="fuel report enabled item"><i class="bar chart icon"></i> Fuel Efficiency</a>
-		<a class="filling report enabled item"><i class="chart line icon"></i> Filling</a>
-		<a class="draining report item"><i class="chart line icon"></i> Draining</a>
-		<a class="vehicle tax active enabled item"><i class="yellow tasks icon"></i> Vehicle Tax</a>
-		<div class="right menu">
-			<a class="ui logout item" href="/login.html" title="Sign out"><i class="sign-out icon"></i></a>
+	<div class="ui fixed main secondary small blue inverted menu"
+		id="topMenu">
+		<div class="ui container">
+			<a class="tracking enabled item"><i class="road icon"></i>
+				Vehicle Tracking</a> <a class="fuel report enabled item"><i
+				class="bar chart icon"></i> Fuel Efficiency</a> <a
+				class="filling report enabled item"><i class="chart line icon"></i>
+				Filling</a> <a class="draining report item"><i
+				class="chart line icon"></i> Draining</a> <a
+				class="vehicle tax active enabled item"><i
+				class="yellow tasks icon"></i> Vehicle Tax</a>
+			<div class="right menu">
+				<a class="ui logout item" href="/login.html" title="Sign out"><i
+					class="sign-out icon"></i></a>
+			</div>
 		</div>
 	</div>
-</div>
 
-<div class="main-container">
-	<div class="left-column">
-		<div class="ui raised segment">
-			<div class="ui blue top attached label"><i class="rupee sign icon"></i>Vehicle Tax Management</div>
-			<div class="left-column-content-container">	
-				<div class="ui blue vertical fluid secondary pointing small menu" id="taxSubMenu">
-					<a class="active payment task item"><i class="bell icon"></i>Vehicle Tax Payment Task</a>
-					<a class="tax template item"><i class="copy icon"></i>Payment Task Templates</a>
-	   			</div>
-	   		</div>
+	<div class="main-container">
+		<div class="left-column">
+			<div class="ui raised segment">
+				<div class="ui blue top attached label">
+					<i class="rupee sign icon"></i>Vehicle Tax Management
+				</div>
+				<div class="left-column-content-container">
+					<div class="ui blue vertical fluid secondary pointing small menu"
+						id="taxSubMenu">
+						<a class="active payment task item"><i class="bell icon"></i>Vehicle
+							Tax Payment Task</a> <a class="tax template item"><i
+							class="copy icon"></i>Payment Task Templates</a>
+					</div>
+				</div>
+			</div>
 		</div>
+		<div class="right-column">
+			<div class="right-column-content-container">
+				<div class="ui small unstackable form" id="actionFrm"
+					style="padding-top: 0.5em;">
+					<div class="inline fields">
+						<div class="four wide field">
+							<label>Payment type:</label>
+							<div class="ui selection dropdown" style="min-width: 11em;">
+								<i class="dropdown icon"></i> <input type='hidden'
+									name="taskType">
+								<div class="default text">All</div>
+								<div class="ui menu">
+									<div class="item" data-value="">All</div>
+									<div class="item" data-value="C">Certification No.</div>
+									<div class="item" data-value="T">Tax No.</div>
+									<div class="item" data-value="K">KIR No.</div>
+								</div>
+							</div>
+						</div>
+						<div class="seven wide inline field">
+							<label>Period:</label>
+							<div class="ui small left icon input">
+								<input type="text" placeholder="Date from" id="fromDate"
+									name="fromDate"><i
+									class="calendar alternate outline icon"></i>
+							</div>
+							&nbsp;~&nbsp;
+							<div class="ui small right icon input">
+								<input type="text" placeholder="Date to" id="toDate"
+									name="toDate"><i
+									class="calendar alternate outline icon"></i>
+							</div>
+						</div>
+						<div class="five wide field" id="actionButtons">
+							<div class="ui orange tiny compact icon basic add button"
+								title="add new tax payment task">
+								<i class="plus icon"></i>
+							</div>
+							<div class="ui tiny compact icon basic button complete"
+								title="set status of checked items as paid">
+								<i class="check icon"></i>
+							</div>
+							<div class="ui tiny compact icon basic button print">
+								<i class="print icon"></i>
+							</div>
+							<div class="ui tiny compact icon basic button remove"
+								title="remove checked items">
+								<i class="trash alternate icon"></i>
+							</div>
+							<div class="ui tiny compact icon basic button download"
+								title="download button">
+								<i class="download alternate icon"></i>
+							</div>
+						</div>
+						<div class="one wide field">
+							<div class="ui compact blue search icon button">
+								<i class="search icon"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui basic segment" style="padding: 0; margin: 0;">
+					<div class="ui loader" id="taskTableLoader"></div>
+					<table
+						class="ui celled teal striped compact small unstackable selectable table"
+						id="taskListTable" style="margin-top: 0.2em;">
+						<thead>
+							<tr>
+								<th class="center aligned collapsing"><div
+										class="ui checkbox no-label chkAll">
+										<input type="checkbox" name="chkAll">
+									</div></th>
+								<th class="center aligned">Label</th>
+								<th class="center aligned">Model</th>
+								<th class="center aligned">Plate No.</th>
+								<th class="center aligned">Type</th>
+								<th class="center aligned collapsing">Payment No.</th>
+								<th class="center aligned">Cost</th>
+								<th class="center aligned">Due Date</th>
+								<th class="center aligned">Status</th>
+								<th class="center aligned">Notification</th>
+								<th class="collapsing">Photo</th>
+								<th class="collapsing">Payment Receipt</th>
+								<th class="collapsing">Edit/Remove</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+			<!-- end of right column content container -->
+		</div>
+		<!--  end of right column -->
 	</div>
-	<div class="right-column">
-		<div class="right-column-content-container">
-			<div class="ui small unstackable form" id="actionFrm" style="padding-top: 0.5em;">
-				<div class="inline fields">
-					<div class="four wide field">
-						<label>Payment type:</label>
-						<div class="ui selection dropdown" style="min-width: 11em;">
-							<i class="dropdown icon"></i>
-							<input type='hidden' name="taskType">
-							<div class="default text">All</div>
-							<div class="ui menu">
-								<div class="item" data-value="">All</div>
-								<div class="item" data-value="C">Certification No.</div>
-								<div class="item" data-value="T">Tax No.</div>
-								<div class="item" data-value="K">KIR No.</div>
-							</div>
-						</div>
-					</div>
-					<div class="seven wide inline field">
-						<label>Period:</label>
-						<div class="ui small left icon input">
-							<input type="text" placeholder="Date from" id="fromDate" name="fromDate"><i class="calendar alternate outline icon"></i>
-						</div>
-						&nbsp;~&nbsp;
-						<div class="ui small right icon input">
-							<input type="text" placeholder="Date to" id="toDate" name="toDate"><i class="calendar alternate outline icon"></i>
-						</div>
-					</div>
-					<div class="four wide field" id="actionButtons">
-						<div class="ui orange tiny compact icon basic add button" title="add new tax payment task"><i class="plus icon"></i></div>
-						<div class="ui tiny compact icon basic button complete" title="set status of checked items as paid"><i class="check icon"></i></div>
-						<div class="ui tiny compact icon basic button print"><i class="print icon"></i></div>
-						<div class="ui tiny compact icon basic button remove" title="remove checked items"><i class="trash alternate icon"></i></div>
-						<div class="ui tiny compact icon basic button download" title="download checked items"><i class="download alternate icon"></i></div>
-					</div>
-					<div class="one wide field">
-						<div class="ui compact blue search icon button"><i class="search icon"></i></div>
-					</div>
-				</div>
-			</div>
-			<div class="ui basic segment" style="padding:0; margin: 0;">
-				<div class="ui loader" id="taskTableLoader"></div>
-				<table class="ui celled teal striped compact small unstackable selectable table" id="taskListTable" style="margin-top: 0.2em;">
-					<thead>
-					<tr>
-						<th class="center aligned collapsing"><div class="ui checkbox no-label chkAll"><input type="checkbox" name="chkAll"></div></th>
-						<th class="center aligned">Label</th>
-						<th class="center aligned">Model</th>
-						<th class="center aligned">Plate No.</th>
-						<th class="center aligned">Type</th>
-						<th class="center aligned collapsing">Payment No.</th>
-						<th class="center aligned">Cost</th>
-						<th class="center aligned">Due Date</th>
-						<th class="center aligned">Status</th>
-						<th class="center aligned">Notification</th>
-						<th class="collapsing">Photo</th>
-						<th class="collapsing">Payment Receipt</th>
-						<th class="collapsing">Edit/Remove</th>
-					</tr>
-					</thead>
-					<tbody></tbody>
-				</table>
-			</div>	
-		</div><!-- end of right column content container -->
-	</div><!--  end of right column -->
-</div><!-- end of main -->
-<div class="ui segment modal" id="registModal">
-	<div class="ui small form tax">
-		<div class="fields">
-			<div class="four wide field">
-				<div class="ui segment" style="padding-left: 0.3em; padding-right: 0.3em;">
-					<div class="ui top attached blue label"><i class="car icon"></i> Vehicle List</div>
-					<div style="overflow: auto; max-height: 430px;"><table class="ui small small basic table"><tbody></tbody></table></div>
-				</div>
-			</div>
-			<div class="twelve wide field">
-				<div class="ui segment">
-					<div class="ui top attached blue label">Tax Payment Task</div>
-					<div class="fields">
-						<div class="eight wide field">
-							<label class="plain-text"><i class="copy outline icon"></i>Apply Template</label>
-							<div class="ui fluid search selection dropdown" id="templateDropdown">
-								<i class="dropdown icon"></i>
-								<input type="hidden" name="tmplId">
-								<div class="default text">Select Template to apply</div>
-								<div class="ui menu"></div>
-							</div>
-						</div>
-						<div class="eight wide field">
-							<label class="plain-text"><i class="grey clone icon"></i>Apply Task To</label>
-							<div class="inline fields" style="padding-top: 0.5em;">
-								<div class="field"><div class="ui radio checked checkbox applyTo all"><label>All</label><input type="radio" name="applyTo" value="all"></div></div>
-								<div class="field"><div class="ui radio checkbox applyTo cert"><label>Certification</label><input type="radio" name="applyTo" value="cert"></div></div>
-								<div class="field"><div class="ui radio checkbox applyTo tax"><label>Tax</label><input type="radio" name="applyTo" value="tax"></div></div>
-								<div class="field"><div class="ui radio checkbox applyTo kir"><label>KIR</label><input type="radio" name="applyTo" value="kir"></div></div>
-							</div>
-						</div>
-					</div>
-					<div class="ui horizontal divider"><i class="car grey icon"></i>&nbsp;<span class="plain-text">Vehicle Certification</span></div>
-					
-					<div class="ui form" id="certRegistFrm">
-						<div class="fields">
-							<div class="twelve wide field">
-								<div class="fields">
-									<div class="eight wide field"><label class="plain-text">Certification No.</label><div class="ui small input"><input type="text" name="registrationNo"></div></div>
-									<div class="eight wide field"><label class="plain-text">Valid Till</label><div class="ui small right icon input"><input type="text" name="dateValidTill" id="certValidTill"><i class="calendar alternate outline icon"></i></div></div>
-								</div>
-								<div class="fields">
-									<div class="eight wide field"><label class="plain-text">Cost (RP)</label><div class="ui small input"><input type="text" class="certcost-input" name="cost" style="text-align: right;"></div></div>
-									<div class="eight wide field"><label class="plain-text">Remind Before (days)</label><div class="ui small input"><input type="number" name="remindBeforeDays" min="0" style="text-align: right;"></div></div>
-								</div>
-							</div>
-							<div class="four wide field">
-								<label class="plain-text">Certification Photo</label><img class="tax-reg-photo" title="click or drop image file">
-								<input type="hidden" name="photoId">
-							</div>
-						</div>
-						<div class="field"><input type='hidden' name='taskType'></div>
-					</div>	
-						
-					<div class="ui horizontal divider"><span class="plain-text"><i class="car grey icon"></i>&nbsp;Vehicle Tax</span></div>
-					
-					<div class="ui form" id="taxRegistFrm">
-						<div class="fields">
-							<div class="twelve wide field">		
-								<div class="fields">
-									<div class="eight wide field"><label class="plain-text">Tax No.</label><div class="ui small input"><input type="text" name="registrationNo"></div></div>
-									<div class="eight wide field"><label class="plain-text">Valid Till</label><div class="ui small right icon input"><input type="text" name="dateValidTill" id="taxValidTill"><i class="calendar alternate outline icon"></i></div></div>
-								</div>
-								<div class="fields">
-									<div class="eight wide field"><label class="plain-text">Cost (RP)</label><div class="ui small input"><input type="text" class="taxcost-input" name="cost" style="text-align: right;"></div></div>
-									<div class="eight wide field"><label class="plain-text">Remind Before (days)</label><div class="ui small input"><input type="number" name="remindBeforeDays" min="0" style="text-align: right;"></div></div>
-								</div>
-							</div>
-							<div class="four wide field">
-								<label class="plain-text">Tax Photo</label><img class="tax-reg-photo" title="click or drop image file">
-								<input type="hidden" name="photoId">
-							</div>
-						</div>
-						<div class="field"><input type='hidden' name='taskType'></div>
-					</div>
-					<div class="ui horizontal divider"><span class="plain-text"><i class="truck grey icon"></i>&nbsp;KIR</span></div>
-					<div class="ui form" id="kirRegistFrm">
-						<div class="fields">
-							<div class="twelve wide field">		
-								<div class="fields">
-									<div class="eight wide field"><label class="plain-text">KIR No.</label><div class="ui small input"><input type="text" name="registrationNo"></div></div>
-									<div class="eight wide field"><label class="plain-text">Valid Till</label><div class="ui small right icon input"><input type="text" name="dateValidTill" id="kirValidTill"><i class="calendar alternate outline icon"></i></div></div>
-								</div>
-								<div class="fields">
-									<div class="eight wide field"><label class="plain-text">Cost (RP)</label><div class="ui small input"><input type="text" name="cost" class="kircost-input" style="text-align: right;"></div></div>
-									<div class="eight wide field"><label class="plain-text">Remind Before (days)</label><div class="ui small input"><input type="number" name="remindBeforeDays" min="0" style="text-align: right;"></div></div>
-								</div>
-							</div>
-							<div class="four wide field">
-								<label class="plain-text">KIR No. Photo</label><img class="tax-reg-photo" title="click or drop image file">
-								<input type="hidden" name="photoId">
-							</div>
-						</div>
-						<div class="field"><input type='hidden' name='taskType'></div>
-					</div>
-					<div class="ui horizontal divider"><i class="grey bell icon"></i>&nbsp;<span class="plain-text">Notification</span></div>
-					<div class="fields">
-						<div class="eight wide field"><label class="plain-text">SMS Notification</label><div class="ui small left icon input"><input type="text" name="notificationSms"><i class="comments alternate icon"></i></div></div>
-						<div class="eight wide field"><label class="plain-text">Email Notification</label><div class="ui small left icon input"><input type="text" name="notificationEmail"><i class="envelope icon"></i></div></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="fields">
-			<div class="field"><input type="hidden" name="vehicleId"></div>
-			<div class="field"><input type="hidden" name="label"></div>
-			<div class="field"><input type="hidden" name="model"></div>
-			<div class="field"><input type="hidden" name="plateNo"></div>
-			<div class="field"><input type="hidden" name="vin"></div>
-		</div>
-		<div class="error-description field"></div>
-		<div class="ui divider"></div>
-		<div class="field">
-			<div style="text-align: center;">
-				<div class="ui blue right labeled icon small basic save compact button">Save<i class="save icon"></i></div>
-				<div class="ui right labeled icon small basic close compact button">Close <i class="x icon"></i></div>
-			</div>	
-		</div>
-	</div>
-</div>
-<div class="ui modal" id="editModal">
-	<div class="ui basic segment">
-		<div class="ui top attached blue label"><i class="car icon"></i><span class="taxTypeDescription"></span></div>
-		<div class="ui small form">
-			<div class="fields">
-				<div class="fourteen wide field">		
-					<div class="four fields">
-						<div class="field"><label class="plain-text">Label</label><div class="ui small input"><input type="text" name="label"></div></div>
-						<div class="field"><label class="plain-text">Model</label><div class="ui small input"><input type="text" name="model"></div></div>
-						<div class="field"><label class="plain-text">Plate No.</label><div class="ui small input"><input type="text" name="plateNo"></div></div>
-						<div class="field"><label class="plain-text">VIN</label><div class="ui small input"><input type="text" name="vin" ></div></div>						
-					</div>
-					<div class="four fields">
-						<div class="field"><label class="plain-text">Registration No.</label><div class="ui small input"><input type="text" name="registrationNo"></div></div>
-						<div class="field"><label class="plain-text">Due Date</label><div class="ui small input"><input type="text" name="dateValidTill" id="editValidTill"></div></div>
-						<div class="field"><label class="plain-text">Cost (RP)</label><div class="ui small input"><input type="text" class="cost-input" name="cost" style="text-align: right;"></div></div>
-						<div class="field"><label class="plain-text">Remind Before (days)</label><div class="ui small input"><input type="number" name="remindBeforeDays" min="0" style="text-align: right;"></div></div>
-					</div>
-				</div>
-				<div class="two wide field">
-					<label class="plain-text">Photo</label><img class="tax-reg-photo" src="/images/dummy_photo.png" title="click or drop image file">
-					<input type="hidden" name="photoId">
-				</div>
-			</div>
+	<!-- end of main -->
+	<div class="ui segment modal" id="registModal">
+		<div class="ui small form tax">
 			<div class="fields">
 				<div class="four wide field">
-					<div class="ui right pointing fluid green label">Payment Status</div>
+					<div class="ui segment"
+						style="padding-left: 0.3em; padding-right: 0.3em;">
+						<div class="ui top attached blue label">
+							<i class="car icon"></i> Vehicle List
+						</div>
+						<div style="overflow: auto; max-height: 430px;">
+							<table class="ui small small basic table">
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
 				</div>
-				<div class="four wide field">
-					<div class="ui toggle small tax-payment checkbox">
-						<label>Tax Paid</label>
-						<input type="checkbox" name="paid">
-				 	</div>
+				<div class="twelve wide field">
+					<div class="ui segment">
+						<div class="ui top attached blue label">Tax Payment Task</div>
+						<div class="fields">
+							<div class="eight wide field">
+								<label class="plain-text"><i class="copy outline icon"></i>Apply
+									Template</label>
+								<div class="ui fluid search selection dropdown"
+									id="templateDropdown">
+									<i class="dropdown icon"></i> <input type="hidden"
+										name="tmplId">
+									<div class="default text">Select Template to apply</div>
+									<div class="ui menu"></div>
+								</div>
+							</div>
+							<div class="eight wide field">
+								<label class="plain-text"><i class="grey clone icon"></i>Apply
+									Task To</label>
+								<div class="inline fields" style="padding-top: 0.5em;">
+									<div class="field">
+										<div class="ui radio checked checkbox applyTo all">
+											<label>All</label><input type="radio" name="applyTo"
+												value="all">
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui radio checkbox applyTo cert">
+											<label>Certification</label><input type="radio"
+												name="applyTo" value="cert">
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui radio checkbox applyTo tax">
+											<label>Tax</label><input type="radio" name="applyTo"
+												value="tax">
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui radio checkbox applyTo kir">
+											<label>KIR</label><input type="radio" name="applyTo"
+												value="kir">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ui horizontal divider">
+							<i class="car grey icon"></i>&nbsp;<span class="plain-text">Vehicle
+								Certification</span>
+						</div>
+
+						<div class="ui form" id="certRegistFrm">
+							<div class="fields">
+								<div class="twelve wide field">
+									<div class="fields">
+										<div class="eight wide field">
+											<label class="plain-text">Certification No.</label>
+											<div class="ui small input">
+												<input type="text" name="registrationNo">
+											</div>
+										</div>
+										<div class="eight wide field">
+											<label class="plain-text">Valid Till</label>
+											<div class="ui small right icon input">
+												<input type="text" name="dateValidTill" id="certValidTill"><i
+													class="calendar alternate outline icon"></i>
+											</div>
+										</div>
+									</div>
+									<div class="fields">
+										<div class="eight wide field">
+											<label class="plain-text">Cost (RP)</label>
+											<div class="ui small input">
+												<input type="text" class="certcost-input" name="cost"
+													style="text-align: right;">
+											</div>
+										</div>
+										<div class="eight wide field">
+											<label class="plain-text">Remind Before (days)</label>
+											<div class="ui small input">
+												<input type="number" name="remindBeforeDays" min="0"
+													style="text-align: right;">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="four wide field">
+									<label class="plain-text">Certification Photo</label><img
+										class="tax-reg-photo" title="click or drop image file">
+									<input type="hidden" name="photoId">
+								</div>
+							</div>
+							<div class="field">
+								<input type='hidden' name='taskType'>
+							</div>
+						</div>
+
+						<div class="ui horizontal divider">
+							<span class="plain-text"><i class="car grey icon"></i>&nbsp;Vehicle
+								Tax</span>
+						</div>
+
+						<div class="ui form" id="taxRegistFrm">
+							<div class="fields">
+								<div class="twelve wide field">
+									<div class="fields">
+										<div class="eight wide field">
+											<label class="plain-text">Tax No.</label>
+											<div class="ui small input">
+												<input type="text" name="registrationNo">
+											</div>
+										</div>
+										<div class="eight wide field">
+											<label class="plain-text">Valid Till</label>
+											<div class="ui small right icon input">
+												<input type="text" name="dateValidTill" id="taxValidTill"><i
+													class="calendar alternate outline icon"></i>
+											</div>
+										</div>
+									</div>
+									<div class="fields">
+										<div class="eight wide field">
+											<label class="plain-text">Cost (RP)</label>
+											<div class="ui small input">
+												<input type="text" class="taxcost-input" name="cost"
+													style="text-align: right;">
+											</div>
+										</div>
+										<div class="eight wide field">
+											<label class="plain-text">Remind Before (days)</label>
+											<div class="ui small input">
+												<input type="number" name="remindBeforeDays" min="0"
+													style="text-align: right;">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="four wide field">
+									<label class="plain-text">Tax Photo</label><img
+										class="tax-reg-photo" title="click or drop image file">
+									<input type="hidden" name="photoId">
+								</div>
+							</div>
+							<div class="field">
+								<input type='hidden' name='taskType'>
+							</div>
+						</div>
+						<div class="ui horizontal divider">
+							<span class="plain-text"><i class="truck grey icon"></i>&nbsp;KIR</span>
+						</div>
+						<div class="ui form" id="kirRegistFrm">
+							<div class="fields">
+								<div class="twelve wide field">
+									<div class="fields">
+										<div class="eight wide field">
+											<label class="plain-text">KIR No.</label>
+											<div class="ui small input">
+												<input type="text" name="registrationNo">
+											</div>
+										</div>
+										<div class="eight wide field">
+											<label class="plain-text">Valid Till</label>
+											<div class="ui small right icon input">
+												<input type="text" name="dateValidTill" id="kirValidTill"><i
+													class="calendar alternate outline icon"></i>
+											</div>
+										</div>
+									</div>
+									<div class="fields">
+										<div class="eight wide field">
+											<label class="plain-text">Cost (RP)</label>
+											<div class="ui small input">
+												<input type="text" name="cost" class="kircost-input"
+													style="text-align: right;">
+											</div>
+										</div>
+										<div class="eight wide field">
+											<label class="plain-text">Remind Before (days)</label>
+											<div class="ui small input">
+												<input type="number" name="remindBeforeDays" min="0"
+													style="text-align: right;">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="four wide field">
+									<label class="plain-text">KIR No. Photo</label><img
+										class="tax-reg-photo" title="click or drop image file">
+									<input type="hidden" name="photoId">
+								</div>
+							</div>
+							<div class="field">
+								<input type='hidden' name='taskType'>
+							</div>
+						</div>
+						<div class="ui horizontal divider">
+							<i class="grey bell icon"></i>&nbsp;<span class="plain-text">Notification</span>
+						</div>
+						<div class="fields">
+							<div class="eight wide field">
+								<label class="plain-text">SMS Notification</label>
+								<div class="ui small left icon input">
+									<input type="text" name="notificationSms"><i
+										class="comments alternate icon"></i>
+								</div>
+							</div>
+							<div class="eight wide field">
+								<label class="plain-text">Email Notification</label>
+								<div class="ui small left icon input">
+									<input type="text" name="notificationEmail"><i
+										class="envelope icon"></i>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				
+			</div>
+			<div class="fields">
+				<div class="field">
+					<input type="hidden" name="vehicleId">
+				</div>
+				<div class="field">
+					<input type="hidden" name="label">
+				</div>
+				<div class="field">
+					<input type="hidden" name="model">
+				</div>
+				<div class="field">
+					<input type="hidden" name="plateNo">
+				</div>
+				<div class="field">
+					<input type="hidden" name="vin">
+				</div>
 			</div>
 			<div class="error-description field"></div>
 			<div class="ui divider"></div>
 			<div class="field">
 				<div style="text-align: center;">
-					<div class="ui blue right labeled icon small basic save compact button">Save<i class="save icon"></i></div>
-					<div class="ui right labeled icon small basic close compact button">Close <i class="x icon"></i></div>
-				</div>	
+					<div
+						class="ui blue right labeled icon small basic save compact button">
+						Save<i class="save icon"></i>
+					</div>
+					<div class="ui right labeled icon small basic close compact button">
+						Close <i class="x icon"></i>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="ui small segment modal" id="photoPopupModal">
-	<div style="text-align: center; overflow: auto;">
-		<img style="max-width: 700px;">
+	<div class="ui modal" id="editModal">
+		<div class="ui basic segment">
+			<div class="ui top attached blue label">
+				<i class="car icon"></i><span class="taxTypeDescription"></span>
+			</div>
+			<div class="ui small form">
+				<div class="fields">
+					<div class="fourteen wide field">
+						<div class="four fields">
+							<div class="field">
+								<label class="plain-text">Label</label>
+								<div class="ui small input">
+									<input type="text" name="label">
+								</div>
+							</div>
+							<div class="field">
+								<label class="plain-text">Model</label>
+								<div class="ui small input">
+									<input type="text" name="model">
+								</div>
+							</div>
+							<div class="field">
+								<label class="plain-text">Plate No.</label>
+								<div class="ui small input">
+									<input type="text" name="plateNo">
+								</div>
+							</div>
+							<div class="field">
+								<label class="plain-text">VIN</label>
+								<div class="ui small input">
+									<input type="text" name="vin">
+								</div>
+							</div>
+						</div>
+						<div class="four fields">
+							<div class="field">
+								<label class="plain-text">Registration No.</label>
+								<div class="ui small input">
+									<input type="text" name="registrationNo">
+								</div>
+							</div>
+							<div class="field">
+								<label class="plain-text">Due Date</label>
+								<div class="ui small input">
+									<input type="text" name="dateValidTill" id="editValidTill">
+								</div>
+							</div>
+							<div class="field">
+								<label class="plain-text">Cost (RP)</label>
+								<div class="ui small input">
+									<input type="text" class="cost-input" name="cost"
+										style="text-align: right;">
+								</div>
+							</div>
+							<div class="field">
+								<label class="plain-text">Remind Before (days)</label>
+								<div class="ui small input">
+									<input type="number" name="remindBeforeDays" min="0"
+										style="text-align: right;">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="two wide field">
+						<label class="plain-text">Photo</label><img class="tax-reg-photo"
+							src="/images/dummy_photo.png" title="click or drop image file">
+						<input type="hidden" name="photoId">
+					</div>
+				</div>
+				<div class="fields">
+					<div class="four wide field">
+						<div class="ui right pointing fluid green label">Payment
+							Status</div>
+					</div>
+					<div class="four wide field">
+						<div class="ui toggle small tax-payment checkbox">
+							<label>Tax Paid</label> <input type="checkbox" name="paid">
+						</div>
+					</div>
+
+				</div>
+				<div class="error-description field"></div>
+				<div class="ui divider"></div>
+				<div class="field">
+					<div style="text-align: center;">
+						<div
+							class="ui blue right labeled icon small basic save compact button">
+							Save<i class="save icon"></i>
+						</div>
+						<div
+							class="ui right labeled icon small basic close compact button">
+							Close <i class="x icon"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="ui divider"></div>
-	<div><div class="ui small compact right floated close button">Close</div></div>
-</div>
-<input type="file" hidden="hidden" id="photoUploadFile">
-<input type="file" hidden="hidden" id="receiptPhotoUploadFile">
-<script src="/js/nprogress.js"></script>
-<script src="/js/jquery-3.1.1.min.js"></script>
-<script src="/js/jquery-ui.min.js"></script>
-<script src="/js/modules.min.js"></script>
-<script src="/js/cleave.min.js"></script>
-<script src="/js/common.api.js?v=1.0"></script>
-<script src="/js/common.js?v=2.1"></script>
-<script src="/js/tax.api.js?v=1.0"></script>
-<script src="/js/taxtask.js?v=1.15"></script>
+	<div class="ui small segment modal" id="photoPopupModal">
+		<div style="text-align: center; overflow: auto;">
+			<img style="max-width: 700px;">
+		</div>
+		<div class="ui divider"></div>
+		<div>
+			<div class="ui small compact right floated close button">Close</div>
+		</div>
+	</div>
+	<input type="file" hidden="hidden" id="photoUploadFile">
+	<input type="file" hidden="hidden" id="receiptPhotoUploadFile">
+	<script src="/js/nprogress.js"></script>
+	<script src="/js/jquery-3.1.1.min.js"></script>
+	<script src="/js/jquery-ui.min.js"></script>
+	<script src="/js/modules.min.js"></script>
+	<script src="/js/cleave.min.js"></script>
+	<script src="/js/common.api.js?v=1.0"></script>
+	<script src="/js/common.js?v=2.1"></script>
+	<script src="/js/tax.api.js?v=1.0"></script>
+	<script src="/js/taxtask.js?v=1.15"></script>
 </body>
 </html>

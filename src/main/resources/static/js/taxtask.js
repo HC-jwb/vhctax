@@ -352,6 +352,7 @@ function listTaxPaymentTask() {
 	$tableLoader.addClass("active");
 	var actionParam = $actionFrm.form('get values');
 	TaxServiceApi.listPaymentTask(actionParam, function(response) {
+		console.log(actionParam);
 		if (response.success) {
 			buildTaskTable(response.payload);
 		} else {
@@ -473,6 +474,7 @@ function getCheckedTaskList() {
 	return chkList;
 }
 function downloadPDFexport(actionButton) {
+	var $actionButton = $(actionButton);
 	DialogUI.confirmOk("Export PDF files",
 			function(result) {
 				if (result) {
@@ -823,7 +825,7 @@ $(function() {
 		updateTaskCompletePaid(this);
 	});
 	$actionButtons.find(".download.button").click(function() {
-		console.log("Hello")
+		console.log("Hello");
 		downloadPDFexport(this);
 	});
 
