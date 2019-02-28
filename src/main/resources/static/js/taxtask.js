@@ -206,14 +206,8 @@ function showRegistModal(addButton) {
 					 * $registFrm.find(".ui.radio.checkbox:first").checkbox("set
 					 * checked");
 					 *//*
-																							 * When
-																							 * rquired
-																							 * to
-																							 * reset
-																							 * to
-																							 * all
-																							 * mode
-																							 */
+						 * When rquired to reset to all mode
+						 */
 					$registFrm.find(".ui.checked.radio.checkbox:first")
 							.checkbox("set checked");
 					$certRegistFrm.form('set value', 'taskType', 'C');
@@ -475,25 +469,15 @@ function getCheckedTaskList() {
 }
 function downloadPDFexport(actionButton) {
 	var $actionButton = $(actionButton);
-	DialogUI.confirmOk("Export PDF files",
-			function(result) {
-				if (result) {
-					$actionButton.addClass("loading");
-					TaxServiceApi.downloadPDF(chkIdList, function(
-							response) {
-						if (response.success) {
-//							listTaxPaymentTask();
-						} else {
-							alert(response.status.description);
-						}
-						setTimeout(function() {
-							$actionButton.removeClass("loading");
-						}, 300);
-					});
-				}
-			});
-	
-	 
+
+	TaxServiceApi.downloadPDF(chkIdList, function(response) {
+		if (response.success) {
+			// listTaxPaymentTask();
+		} else {
+			alert(response.status.description);
+		}
+	});
+
 }
 
 function removeCheckedTask(actionButton) {

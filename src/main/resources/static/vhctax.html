@@ -97,50 +97,60 @@
 								title="remove checked items">
 								<i class="trash alternate icon"></i>
 							</div>
-							<div class="ui tiny compact icon basic button download"
-								title="download button">
+							<div
+								class="ui tiny compact icon basic button dropdown download floating"
+								title="download buttons">
 								<i class="download alternate icon"></i>
-							</div>
-						</div>
-						<div class="one wide field">
-							<div class="ui compact blue search icon button">
-								<i class="search icon"></i>
+								<div class="menu">
+									<div class="item">
+										<i class="file excel outline icon"></i> XLS
+									</div>
+									<div class="item">
+										<i class="file pdf outline icon"></i> PDF
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="ui basic segment" style="padding: 0; margin: 0;">
-					<div class="ui loader" id="taskTableLoader"></div>
-					<table
-						class="ui celled teal striped compact small unstackable selectable table"
-						id="taskListTable" style="margin-top: 0.2em;">
-						<thead>
-							<tr>
-								<th class="center aligned collapsing"><div
-										class="ui checkbox no-label chkAll">
-										<input type="checkbox" name="chkAll">
-									</div></th>
-								<th class="center aligned">Label</th>
-								<th class="center aligned">Model</th>
-								<th class="center aligned">Plate No.</th>
-								<th class="center aligned">Type</th>
-								<th class="center aligned collapsing">Payment No.</th>
-								<th class="center aligned">Cost</th>
-								<th class="center aligned">Due Date</th>
-								<th class="center aligned">Status</th>
-								<th class="center aligned">Notification</th>
-								<th class="collapsing">Photo</th>
-								<th class="collapsing">Payment Receipt</th>
-								<th class="collapsing">Edit/Remove</th>
-							</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
+					<div class="one wide field">
+						<div class="ui compact blue search icon button">
+							<i class="search icon"></i>
+						</div>
+					</div>
 				</div>
 			</div>
-			<!-- end of right column content container -->
+			<div class="ui basic segment" style="padding: 0; margin: 0;">
+				<div class="ui loader" id="taskTableLoader"></div>
+				<table
+					class="ui celled teal striped compact small unstackable selectable table"
+					id="taskListTable" style="margin-top: 0.2em;">
+					<thead>
+						<tr>
+							<th class="center aligned collapsing"><div
+									class="ui checkbox no-label chkAll">
+									<input type="checkbox" name="chkAll">
+								</div></th>
+							<th class="center aligned">Label</th>
+							<th class="center aligned">Model</th>
+							<th class="center aligned">Plate No.</th>
+							<th class="center aligned">Type</th>
+							<th class="center aligned collapsing">Payment No.</th>
+							<th class="center aligned">Cost</th>
+							<th class="center aligned">Due Date</th>
+							<th class="center aligned">Status</th>
+							<th class="center aligned">Notification</th>
+							<th class="collapsing">Photo</th>
+							<th class="collapsing">Payment Receipt</th>
+							<th class="collapsing">Edit/Remove</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
 		</div>
-		<!--  end of right column -->
+		<!-- end of right column content container -->
+	</div>
+	<!--  end of right column -->
 	</div>
 	<!-- end of main -->
 	<div class="ui segment modal" id="registModal">
