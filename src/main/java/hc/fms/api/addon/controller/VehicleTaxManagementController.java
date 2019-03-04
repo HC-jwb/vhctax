@@ -1,11 +1,16 @@
 package hc.fms.api.addon.controller;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hc.fms.api.addon.model.ResponseContainer;
 import hc.fms.api.addon.model.ResponseStatus;
+import hc.fms.api.addon.report.entity.ReportGen;
+import hc.fms.api.addon.report.model.ExportableReport;
+import hc.fms.api.addon.report.service.FileExportService;
+import hc.fms.api.addon.report.service.TrackerService;
 import hc.fms.api.addon.report.util.HttpUtil;
 import hc.fms.api.addon.vhctax.entity.ServiceTemplate;
 import hc.fms.api.addon.vhctax.entity.VehicleTaxTask;
@@ -28,6 +37,11 @@ import hc.fms.api.addon.vhctax.service.VehicleTaxManagementService;
 @RequestMapping("/addon/vhctax/api/*")
 public class VehicleTaxManagementController {
 	//private Logger logger = LoggerFactory.getLogger(VehicleTaxManagementController.class);
+	@Autowired
+	private TrackerService trackerService;
+	@Autowired
+	private FileExportService exportService;
+	
 	@Autowired
 	private VehicleTaxManagementService vhcTaxManagementService;
 	@RequestMapping("vehicle/list")
@@ -121,6 +135,7 @@ public class VehicleTaxManagementController {
 		String taskType = searchCond.get("taskType");
 		String fromDate = searchCond.get("fromDate");
 		String toDate = searchCond.get("toDate");
+		System.out.println("in list code" +searchCond.toString());
 		try {
 			response.setPayload(vhcTaxManagementService.listTaxTaskList(taskType, fromDate, toDate));
 			response.setSuccess(true);
@@ -131,22 +146,26 @@ public class VehicleTaxManagementController {
 	}
 	
 /// excel test
-	@RequestMapping("task/excel")
-	public ResponseContainer<List<VehicleTaxTask>> exportExcelTask(@RequestBody Map<String, String> searchCond) {
-		ResponseContainer<List<VehicleTaxTask>> response = new ResponseContainer<>();
-		//logger.info(searchCond.toString());
-		String taskType = searchCond.get("taskType");
-		String fromDate = searchCond.get("fromDate");
-		String toDate = searchCond.get("toDate");
-		try {
-			response.setPayload(vhcTaxManagementService.listTaxTaskList(taskType, fromDate, toDate));
-			response.setSuccess(true);
-		} catch(Exception e) {
-			response.setStatus(new ResponseStatus(e.getMessage()));
-		}
-		return response;
-	}
-	
+//	@RequestMapping("task/excel")
+//	public ResponseEntity<InputStreamResource> exportExcelTask(@RequestBody Map<String, String> searchCond) {
+//		//logger.info(searchCond.toString());
+//		String taskType = searchCond.get("taskType");
+//		String fromDate = searchCond.get("fromDate");
+//		String toDate = searchCond.get("toDate");
+//		System.out.println("in excel test code with List:  "+vhcTaxManagementService.listTaxTaskList(taskType, fromDate, toDate).toString());
+//		
+//		ExportableReport<?> reportSource = trackerService.getExportableTaxReport(vhcTaxManagementService.listTaxTaskList(taskType, fromDate, toDate));
+//		ReportGen reportGen = reportSource.getReportGen();
+//		ByteArrayInputStream in = exportService.exportToExcel(reportSource, true);
+//		HttpHeaders headers = new HttpHeaders();
+//		
+//		headers.add("Content-Disposition",String.format("attachment; filename=%s_%s_%s.xlsx", "Vehicle Tax report", reportGen.getFrom().substring(0, 10), reportGen.getTo().substring(0, 10)));
+//		return ResponseEntity
+//				.ok()
+//				.contentType(MediaType.parseMediaType("application/octet-stream"))
+//				.headers(headers).body(new InputStreamResource(in));
+//	}
+//	
 	@PostMapping("task/remove")
 	public ResponseContainer<Void> removePaymentTaskList(@RequestBody List<Long> taskIdList) {
 		ResponseContainer<Void> response = new ResponseContainer<>();

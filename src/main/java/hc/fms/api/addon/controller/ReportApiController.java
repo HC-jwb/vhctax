@@ -303,7 +303,7 @@ public class ReportApiController {
 	public ResponseEntity<InputStreamResource> downloadReportAsExcel(@PathVariable("reportId") Long reportId) {
 		ExportableReport<?> reportSource = trackerService.getExportableReport(reportId);
 		ReportGen reportGen = reportSource.getReportGen();
-		ByteArrayInputStream in = exportService.exportToExcel(reportSource);
+		ByteArrayInputStream in = exportService.exportToExcel(reportSource, false);
 		HttpHeaders headers = new HttpHeaders();
 		String filePrefix = reportGen.getFillDrainReportId() != null? "Filling_Report" : "FuelReport"; 
 		headers.add("Content-Disposition",String.format("attachment; filename=%s_%s_%s.xlsx", filePrefix, reportGen.getFrom().substring(0, 10), reportGen.getTo().substring(0, 10)));

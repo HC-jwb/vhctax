@@ -10,6 +10,7 @@ var TaxServiceApi = {
 	removePaymentTaskUri:'task/remove',
 	downloadExcelUri:'task/excel',
 	taskCompleteUri:'task/complete',
+ 
 	savePaymentTemplate: function(tmplJson, callback) {
 		Api.postJson(this.apiBase + this.saveTemplateUri, tmplJson, callback, function(response) {
 			callback({success:false, status: {description: 'Failed due to communication error!'}});
@@ -51,10 +52,9 @@ var TaxServiceApi = {
 	// for excel test
 	downloadExcelFile: function(searchCond, callback) {
 		console.log("in tax.api.js")
-		Api.postJson(this.apiBase + this.listPaymentTaskUri, searchCond, callback, function(response) {
+		Api.postJson(this.apiBase + this.downloadExcelUri, searchCond, callback, function(response) {
 			callback({success:false, status: {description: 'Failed due to communication error!'}});
 		});
-		
 	},
 	
 	removePaymentTask: function(taskIdList, callback) {

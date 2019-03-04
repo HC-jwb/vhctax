@@ -833,6 +833,9 @@ $(function() {
 	
 	$downloadMenu.find(".pdf-button").click(function() {
 		console.log("PDF download button is clicked");
+		var doc = new jsPDF('p', 'pt');
+	    doc.autoTable({html: '#taskListTable'});
+		doc.save('table.pdf');
 	});
 
 	DialogUI.init();/* call only when I want to use dialog ui */
