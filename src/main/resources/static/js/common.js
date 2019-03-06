@@ -10,7 +10,6 @@ var FormUI = {
 	resetMsgIn: function($frm) {
 		$frm.find(".error-description.field").empty();
 	}
-	
 };
 var DialogUI = {
 	init: function() {

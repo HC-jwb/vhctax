@@ -21,7 +21,6 @@ public class GenSection {
 	@Id
 	private Long trackerId;
 	private String header;
-	
 	@Getter
 	@Setter
 	@ToString

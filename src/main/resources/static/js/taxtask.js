@@ -345,7 +345,14 @@ function hideRegistModal() {
 function listTaxPaymentTask() {
 	$tableLoader.addClass("active");
 	var actionParam = $actionFrm.form('get values');
-	TaxServiceApi.listPaymentTask(actionParam, function(response) { // actionParam을 Rest api로 던져주고, DB처리 후 받은 response를 이용해서 table UI building.
+	TaxServiceApi.listPaymentTask(actionParam, function(response) { // actionParam을
+																	// Rest api로
+																	// 던져주고,
+																	// DB처리 후 받은
+																	// response를
+																	// 이용해서
+																	// table UI
+																	// building.
 		console.log(actionParam);
 		if (response.success) {
 			buildTaskTable(response.payload);
@@ -358,20 +365,19 @@ function listTaxPaymentTask() {
 	});
 }
 
-//For export Excel file test
+// For export Excel file test
 function downloadExcelFile() {
 	var actionParam = $actionFrm.form('get values');
 	TaxServiceApi.downloadExcelFile(actionParam, function(response) {
 		console.log(actionParam);
-		
+
 		if (response.success) {
-//			buildTaskTable(response.payload);	
+			// buildTaskTable(response.payload);
 		} else {
 			console.log(response.status.description);
 		}
 	});
 }
-
 
 function buildTaskTable(taskList) {
 	var $TBODY = $taskListTable.find(">tbody").empty();
@@ -483,18 +489,18 @@ function getCheckedTaskList() {
 	});
 	return chkList;
 }
-//function downloadPDFexport(actionButton) {
-//	var $actionButton = $(actionButton);
+// function downloadPDFexport(actionButton) {
+// var $actionButton = $(actionButton);
 //
-//	TaxServiceApi.downloadPDF(chkIdList, function(response) {
-//		if (response.success) {
-//			// listTaxPaymentTask();
-//		} else {
-//			alert(response.status.description);
-//		}
-//	});
+// TaxServiceApi.downloadPDF(chkIdList, function(response) {
+// if (response.success) {
+// // listTaxPaymentTask();
+// } else {
+// alert(response.status.description);
+// }
+// });
 //
-//}
+// }
 
 function removeCheckedTask(actionButton) {
 	var chkIdList = getAllCheckTaskIds();
@@ -828,14 +834,13 @@ $(function() {
 
 	$downloadMenu.find(".excel-button").click(function() {
 		console.log("EXCEL download button is clicked");
-		downloadExcelFile();
+		exportExcel("taskListTable", "test");
+		// downloadExcelFile();
 	});
-	
+
 	$downloadMenu.find(".pdf-button").click(function() {
 		console.log("PDF download button is clicked");
-		var doc = new jsPDF('p', 'pt');
-	    doc.autoTable({html: '#taskListTable'});
-		doc.save('table.pdf');
+		generatePDF();
 	});
 
 	DialogUI.init();/* call only when I want to use dialog ui */
@@ -854,3 +859,228 @@ $(function() {
 				fileSizeMax : 10
 			});
 });
+
+function exportExcel(id, name) { // <table> id and filename
+
+	var today = new Date();
+	var date = ('0' + today.getDate()).slice(-2) + "-"
+			+ ('0' + (today.getMonth() + 1)).slice(-2) + "-"
+			+ today.getFullYear();
+
+	var file_name = name + ".xls"; // 파일이름
+	var meta = '<meta http-equiv="content-type" content="text/html; charset=UTF-8" />';
+	var html = $("#" + id).clone();
+
+	var tbodyLength;
+	if ($("#taskListTable tbody tr td").text() == "No matched data found.") {
+		tbodyLength = 0;
+	} else {
+		tbodyLength = $("#taskListTable tbody tr").length;
+	}
+
+	var unpaidNum = 0;
+	var paidNum = 0;
+	var paidTotalCost = 0;
+	var unpaidTotalCost = 0;
+
+	for (var i = 0; i < $("#taskListTable tbody tr").length; i++) {
+		if ($(
+				"#taskListTable tbody tr:nth-child(" + (i + 1)
+						+ ") > td:nth-child(9)").text().substring(0, 6) == "Unpaid") {
+			unpaidNum += 1;
+			unpaidTotalCost += parseInt($(
+					"#taskListTable tbody tr:nth-child(" + (i + 1)
+							+ ") > td:nth-child(7)").text().replace(/[^0-9]/,
+					''));
+		} else if ($(
+				"#taskListTable tbody tr:nth-child(" + (i + 1)
+						+ ") > td:nth-child(9)").text() == "Paid") {
+			paidNum += 1;
+			paidTotalCost += parseInt($(
+					"#taskListTable tbody tr:nth-child(" + (i + 1)
+							+ ") > td:nth-child(7)").text().replace(/[^0-9]/,
+					''));
+		}
+	}
+
+	html.find("thead tr th:nth-child(1)").remove();
+	html.find("tbody tr td:nth-child(1)").remove();
+	html.find("thead tr th:nth-child(9)").remove();
+	html.find("thead tr th:nth-child(9)").remove();
+	html.find("thead tr th:nth-child(10)").remove();
+
+	html = "<table style='' align='center'>"
+			+ "<thead>Payment type: , Payment status: </thead>"
+			+ html.html()
+			+ "</table>"
+			+ "<table align='center'><tbody><tr></tr><tr><td>Total: "
+			+ (unpaidNum + paidNum)
+			+ "    Paid: "
+			+ paidNum
+			+ "    Unpaid: "
+			+ unpaidNum
+			+ "</td></tbody></table>"
+			+ "<table style='background-color: gray;'><thead></thead><tbody><tr><td>Unpaid Task</td><td></td></tr><tr><td>Total cost:</td><td>"
+			+ unpaidTotalCost
+			+ "</td></tr><tr></tr><tr><td>Completed Task</td><td></td></tr><tr><td>Total cost:</td><td>"
+			+ paidTotalCost
+			+ "</td></tr></tbody></table>"
+			+ "<table><tbody><tr>&nbsp;</tr><tr>The nearest payment taks: </tr><tr>The latest payment taks: </tr></tbody></table>";
+
+	var uri = 'data:application/vnd.ms-excel,'
+			+ encodeURIComponent(meta + html);
+	var a = $("<a>", {
+		href : uri,
+		download : file_name
+	});
+	$(a)[0].click();
+}
+
+function generatePDF() {
+	var tbodyLength;
+
+	if ($("#taskListTable tbody tr td").text() == "No matched data found.") {
+		tbodyLength = 0;
+	} else {
+		tbodyLength = $("#taskListTable tbody tr").length;
+	}
+
+	var unpaidNum = 0;
+	var paidNum = 0;
+	var paidTotalCost = 0;
+	var unpaidTotalCost = 0;
+
+	for (var i = 0; i < $("#taskListTable tbody tr").length; i++) {
+		if ($(
+				"#taskListTable tbody tr:nth-child(" + (i + 1)
+						+ ") > td:nth-child(9)").text().substring(0, 6) == "Unpaid") {
+			unpaidNum += 1;
+			unpaidTotalCost += parseInt($(
+					"#taskListTable tbody tr:nth-child(" + (i + 1)
+							+ ") > td:nth-child(7)").text().replace(/[^0-9]/,
+					''));
+		} else if ($(
+				"#taskListTable tbody tr:nth-child(" + (i + 1)
+						+ ") > td:nth-child(9)").text() == "Paid") {
+			paidNum += 1;
+			paidTotalCost += parseInt($(
+					"#taskListTable tbody tr:nth-child(" + (i + 1)
+							+ ") > td:nth-child(7)").text().replace(/[^0-9]/,
+					''));
+		}
+	}
+
+	var $paymentType = $(".four.wide.field:nth-child(1) > label").clone()
+			.text();
+	var $paymentTypeValue = $(".four.wide.field .default.text").clone().text();
+
+	var $tempTable4 = $("body")
+			.append(
+					"<table id='taskListTable4' style='display: none;'><tbody><tr><td>Payment type: "
+							+ $paymentTypeValue
+							+ "          "
+							+ "Payment status: " + "</td></tr></tbody></table>")
+			.find("#taskListTable4").clone();
+
+	var $tempTable = $("#taskListTable").clone();
+	$tempTable.removeClass("teal");
+	$tempTable.find("thead tr th:nth-child(1)").remove();
+	$tempTable.find("tbody tr td:nth-child(1)").remove();
+	$tempTable.find("thead tr th:nth-child(9)").remove();
+	$tempTable.find("thead tr th:nth-child(9)").remove();
+	$tempTable.find("thead tr th:nth-child(10)").remove();
+
+	var $tempTable2 = $("body")
+			.append(
+					"<table id='taskListTable2' style='display: none;'><thead></thead><tbody><tr><td>Total: "
+							+ (unpaidNum + paidNum)
+							+ "    Paid: "
+							+ paidNum
+							+ "    Unpaid: "
+							+ unpaidNum
+							+ "</td><td></td></tr><tr><td>Unpaid Task</td><td></td></tr><tr><td>Total cost:</td><td>"
+							+ unpaidTotalCost
+							+ "</td></tr><tr></tr><tr><td>Completed Task</td><td></td></tr><tr><td>Total cost:</td><td>"
+							+ paidTotalCost + "</td></tr></tbody></table>")
+			.clone().find("#taskListTable2");
+
+	var $tempTable3 = $("body")
+			.append(
+					"<table id='taskListTable3' style='display: none;'><tbody><tr><td>The nearest payment task: </td></tr><tr><td>The latest payment task:</td></tr></tbody></table>")
+			.find("#taskListTable3").clone();
+
+	var doc = new jsPDF('', '', [ 400, 841.89 ]);
+
+	var res4 = doc.autoTableHtmlToJson($tempTable4.get(0));
+	var res = doc.autoTableHtmlToJson($tempTable.get(0));
+	var res2 = doc.autoTableHtmlToJson($tempTable2.get(0));
+	var res3 = doc.autoTableHtmlToJson($tempTable3.get(0));
+
+	doc.autoTable(res4.columns, res4.data, {
+		theme : 'plain',
+		startY : doc.autoTableEndPosY() + 5
+	});
+	doc.autoTable(res.columns, res.data, {
+		styles : {
+			lineWidth : 0.5
+		},
+		headerStyles : {
+			halign : 'center'
+		},
+		bodyStyles : {
+
+		},
+		columnStyles : {
+			0 : {
+				columnWidth : 30,
+				halign : 'left'
+			},
+			1 : {
+				columnWidth : 25,
+				halign : 'center'
+			},
+			2 : {
+				columnWidth : 30,
+				halign : 'center'
+			},
+			3 : {
+				columnWidth : 30,
+				halign : 'left'
+			},
+			4 : {
+				columnWidth : 30,
+				halign : 'left'
+			},
+			5 : {
+				columnWidth : 25,
+				halign : 'right'
+			},
+			6 : {
+				columnWidth : 30,
+				halign : 'center'
+			},
+			7 : {
+				columnWidth : 120,
+				halign : 'left'
+			},
+			8 : {
+				columnWidth : 40,
+				halign : 'center'
+			}
+		},
+		startY : doc.autoTableEndPosY()
+	});
+	doc.autoTable(res2.columns, res2.data, {
+		theme : 'dark',
+		tableWidth : 100,
+		tableLineWidth : 0,
+		startY : doc.autoTableEndPosY() + 10
+	});
+	doc.autoTable(res3.columns, res3.data, {
+		theme : 'plain',
+		startY : doc.autoTableEndPosY() + 5
+	});
+
+	doc.save('test.pdf');
+
+}
