@@ -90,16 +90,21 @@ var TaxServiceApi = {
 					});
 				});
 	},
-
 	// for excel test
 	downloadExcelFile : function(searchCond, callback) {
-		console.log("in tax.api.js")
+		console.log("in tax.api.js");
+		console.log(searchCond.fromDate);
 		document.location.href = this.apiBase + this.downloadExcelUri;
-		// Api.postJson(this.apiBase + this.downloadExcelUri, searchCond,
-		// callback, function(response) {
-		// callback({success:false, status: {description: 'Failed due to
-		// communication error!'}});
-		// });
+
+//		Api.sendPost(this.apiBase + this.downloadExcelUri, searchCond, callback);
+//		$.ajax({
+//			url: this.apiBase + this.downloadExcelUri,
+//			type: 'post',
+//			dataType: 'json',
+//			contentType: "application/json; charset=utf-8",
+//			data: JSON.stringify(searchCond),
+//			success: true
+//		});
 	},
 
 	removePaymentTask : function(taskIdList, callback) {

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hc.fms.api.addon.model.ResponseContainer;
 import hc.fms.api.addon.model.ResponseStatus;
+import hc.fms.api.addon.report.model.SearchCondition;
 import hc.fms.api.addon.report.service.FileExportService;
 import hc.fms.api.addon.report.service.TaxFileExportService;
 import hc.fms.api.addon.report.service.TrackerService;
@@ -35,35 +36,40 @@ import hc.fms.api.addon.vhctax.service.VehicleTaxManagementService;
 @CrossOrigin("*")
 @RequestMapping("/addon/vhctax/api/*")
 public class VehicleTaxManagementController {
-	//private Logger logger = LoggerFactory.getLogger(VehicleTaxManagementController.class);
+	// private Logger logger =
+	// LoggerFactory.getLogger(VehicleTaxManagementController.class);
 	@Autowired
 	private TrackerService trackerService;
 	@Autowired
 	private FileExportService exportService;
 	@Autowired
 	private TaxFileExportService taxExportService;
-	
+
+	private SearchCondition searchCondition = new SearchCondition("", "", "");
+
 	@Autowired
 	private VehicleTaxManagementService vhcTaxManagementService;
+
 	@RequestMapping("vehicle/list")
 	public ResponseContainer<List<Vehicle>> getVehicleList(HttpSession session) {
 		ResponseContainer<List<Vehicle>> response = new ResponseContainer<>();
 		try {
 			HttpUtil.validateSession(session);
-			VehicleListResponse vhcListResponse =  vhcTaxManagementService.getVehicleList(HttpUtil.hashKey(session));
-			if(vhcListResponse.getSuccess()) {
+			VehicleListResponse vhcListResponse = vhcTaxManagementService.getVehicleList(HttpUtil.hashKey(session));
+			if (vhcListResponse.getSuccess()) {
 				response.setSuccess(true);
 				response.setPayload(vhcListResponse.getList());
 			} else {
 				response.setStatus(vhcListResponse.getStatus());
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			ResponseStatus status = new ResponseStatus();
 			status.setDescription(e.getMessage());
 			response.setStatus(status);
 		}
 		return response;
 	}
+
 	@RequestMapping("tmpl/list")
 	public ResponseContainer<List<ServiceTemplate>> getTemplateList(HttpSession session) {
 		ResponseContainer<List<ServiceTemplate>> response = new ResponseContainer<>();
@@ -72,7 +78,7 @@ public class VehicleTaxManagementController {
 			List<ServiceTemplate> tmplList = vhcTaxManagementService.getServiceTemplateList();
 			response.setSuccess(true);
 			response.setPayload(tmplList);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			ResponseStatus status = new ResponseStatus();
 			status.setDescription(e.getMessage());
 			response.setStatus(status);
@@ -81,18 +87,20 @@ public class VehicleTaxManagementController {
 	}
 
 	@PostMapping("tmpl/save")
-	public ResponseContainer<ServiceTemplate> createUpdateServiceTemplate(@RequestBody ServiceTemplate svcTmpl, HttpSession session) {
+	public ResponseContainer<ServiceTemplate> createUpdateServiceTemplate(@RequestBody ServiceTemplate svcTmpl,
+			HttpSession session) {
 		ResponseContainer<ServiceTemplate> response = new ResponseContainer<>();
 		try {
 			HttpUtil.validateSession(session);
 			ServiceTemplate savedTmpl = vhcTaxManagementService.createUpdateServiceTemplate(svcTmpl);
 			response.setPayload(savedTmpl);
 			response.setSuccess(true);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			response.setStatus(new ResponseStatus(e.getMessage()));
 		}
 		return response;
 	}
+
 	@RequestMapping("tmpl/remove/{id}")
 	public ResponseContainer<Long> removeServiceTemplate(@PathVariable("id") Long id, HttpSession session) {
 		ResponseContainer<Long> response = new ResponseContainer<>();
@@ -101,11 +109,12 @@ public class VehicleTaxManagementController {
 			vhcTaxManagementService.deleteServiceTemplate(id);
 			response.setPayload(id);
 			response.setSuccess(true);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			response.setStatus(new ResponseStatus(e.getMessage()));
 		}
 		return response;
 	}
+
 	@GetMapping("tmpl/get/{id}")
 	public ResponseContainer<ServiceTemplate> getServiceTemplate(@PathVariable("id") Long id) {
 		ResponseContainer<ServiceTemplate> response = new ResponseContainer<>();
@@ -113,22 +122,24 @@ public class VehicleTaxManagementController {
 			ServiceTemplate tmpl = vhcTaxManagementService.getServiceTemplate(id).get();
 			response.setPayload(tmpl);
 			response.setSuccess(true);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			response.setStatus(new ResponseStatus(e.getMessage()));
 		}
 		return response;
 	}
+
 	@PostMapping("task/save")
 	public ResponseContainer<List<VehicleTaxTask>> createUpdatePaymentTask(@RequestBody List<VehicleTaxTask> taskList) {
 		ResponseContainer<List<VehicleTaxTask>> response = new ResponseContainer<>();
 		try {
 			response.setPayload(vhcTaxManagementService.createUpdateTaxTaskList(taskList));
 			response.setSuccess(true);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			response.setStatus(new ResponseStatus(e.getMessage()));
 		}
 		return response;
 	}
+
 	@RequestMapping("task/list")
 	public ResponseContainer<List<VehicleTaxTask>> listVehicleTaxTask(@RequestBody Map<String, String> searchCond) {
 		ResponseContainer<List<VehicleTaxTask>> response = new ResponseContainer<>();
@@ -136,72 +147,73 @@ public class VehicleTaxManagementController {
 		String taskType = searchCond.get("taskType");
 		String fromDate = searchCond.get("fromDate");
 		String toDate = searchCond.get("toDate");
-		System.out.println("in list code" +searchCond.toString());
+						
+		System.out.println(taskType);
+		System.out.println(fromDate);
+		System.out.println(toDate);
+		
+		searchCondition.setTaskType(taskType);	
+		searchCondition.setFromDate(fromDate);
+		searchCondition.setToDate(toDate);
+
 		try {
-			response.setPayload(vhcTaxManagementService.listTaxTaskList(taskType, fromDate, toDate));
+			response.setPayload(vhcTaxManagementService.listTaxTaskList(searchCondition.getTaskType(), searchCondition.getFromDate(), searchCondition.getToDate()));
 			response.setSuccess(true);
 		} catch(Exception e) {
 			response.setStatus(new ResponseStatus(e.getMessage()));
 		}
 		return response;
 	}
-	
+
 // excel test
 	@RequestMapping("task/excel")
 	public ResponseEntity<InputStreamResource> exportExcelTask() {
-		System.out.println("In task/excel");
-//		String taskType = searchCond.get("taskType");
-//		String fromDate = searchCond.get("fromDate");
-//		String toDate = searchCond.get("toDate");
-//		List<VehicleTaxTask> list = vhcTaxManagementService.listTaxTaskList(taskType, fromDate, toDate);
-		List<VehicleTaxTask> list = null;
-		ByteArrayInputStream in= taxExportService.exportToExcel(list);
-		
-		
-	
+		List<VehicleTaxTask> list = vhcTaxManagementService.listTaxTaskList(searchCondition.getTaskType(),
+				searchCondition.getFromDate(), searchCondition.getToDate());
+
+		ByteArrayInputStream in = taxExportService.exportToExcel(list);
+		System.out.println("In task/excel : ");
+		System.out.println(list.toString());
+
 		HttpHeaders headers = new HttpHeaders();
-		String filePrefix = "Tax_List"; 
-		headers.add("Content-Disposition",String.format("attachment; filename=%s_%s_%s.xlsx", filePrefix, "hello", "hello"));
-		return ResponseEntity
-				.ok()
-				.contentType(MediaType.parseMediaType("application/octet-stream"))
-				.headers(headers).body(new InputStreamResource(in));
-		//logger.info(searchCond.toString());
+		String filePrefix = "Tax_List";
+		headers.add("Content-Disposition",
+				String.format("attachment; filename=%s_%s_%s.xlsx", filePrefix, "hello", "hello"));
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/octet-stream")).headers(headers)
+				.body(new InputStreamResource(in));
 	}
-	
-	
-	
-	
+
 	@PostMapping("task/remove")
 	public ResponseContainer<Void> removePaymentTaskList(@RequestBody List<Long> taskIdList) {
 		ResponseContainer<Void> response = new ResponseContainer<>();
 		try {
 			vhcTaxManagementService.removePaymentTaskListByIdList(taskIdList);
 			response.setSuccess(true);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			response.setStatus(new ResponseStatus(e.getMessage()));
 		}
 		return response;
 	}
+
 	@PostMapping("task/download")
 	public ResponseContainer<Void> downloadPDFfile() {
 		ResponseContainer<Void> response = new ResponseContainer<>();
 		try {
 			vhcTaxManagementService.downloadPDFfile();
 			response.setSuccess(true);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			response.setStatus(new ResponseStatus(e.getMessage()));
 		}
 		return response;
 	}
-	
+
 	@PostMapping("task/complete")
 	public ResponseContainer<Void> makePaymentTaskListPaid(@RequestBody List<Long> taskIdList) {
 		ResponseContainer<Void> response = new ResponseContainer<>();
 		try {
 			vhcTaxManagementService.makePaymentTaskListPaid(taskIdList);
 			response.setSuccess(true);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			response.setStatus(new ResponseStatus(e.getMessage()));
 		}
 		return response;
