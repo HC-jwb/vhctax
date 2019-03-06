@@ -433,34 +433,34 @@ public class TrackerService {
 			return getFuelEffRateExportableReport(reportGen);
 		}
 	}
-	//Test
-//	public ExportableReport<?> getExportableTaxReport(List<VehicleTaxTask> listTax) {
-//		
-//		ExportableReport<FuelEffRateStatSection> report = new ExportableReport<>();
-//		Map<Long, List<FuelEffRateStatSection>> sectionMap = new HashMap<>();
-//		List<GenSection> genSectionList = getSectionListFor(reportGen.getId());
-//		for(GenSection genSection: genSectionList) {
-//			List<FuelEffRateStatSection> sectionStatList = new ArrayList<>();
-//			Long trackerId = genSection.getTrackerId();
-//			List<FuelStatResult> resultList = getFuelStatisticsResultListByReportIdAndTrackerId(reportGen.getId(), trackerId);
-//			FuelEffRateStatSection sectionStat = new FuelEffRateStatSection();
-//			List<FuelStat> statList = resultList.stream().map(statResult-> {
-//				sectionStat.addFuelUsed(statResult.getFuelUsed());
-//				sectionStat.addDistanceTravelled(statResult.getDistanceTravelled());
-//				return new FuelStat(statResult);
-//			}).collect(Collectors.toList());
-//			sectionStat.setStatList(statList);
-//			sectionStatList.add(sectionStat);
-//			sectionMap.put(trackerId, sectionStatList);
-//		}
-//
-//		report.setReportGen(reportGen);
-//		report.setSectionInfoList(genSectionList);
-//		report.setSectionDataMap(sectionMap);
-//		return report;
-//		
-//	}
-	
+/*
+	public ExportableReport<?> getExportableTaxReport(List<VehicleTaxTask> listTax) {
+		
+		ExportableReport<FuelEffRateStatSection> report = new ExportableReport<>();
+		Map<Long, List<FuelEffRateStatSection>> sectionMap = new HashMap<>();
+		List<GenSection> genSectionList = getSectionListFor(reportGen.getId());
+		for(GenSection genSection: genSectionList) {
+			List<FuelEffRateStatSection> sectionStatList = new ArrayList<>();
+			Long trackerId = genSection.getTrackerId();
+			List<FuelStatResult> resultList = getFuelStatisticsResultListByReportIdAndTrackerId(reportGen.getId(), trackerId);
+			FuelEffRateStatSection sectionStat = new FuelEffRateStatSection();
+			List<FuelStat> statList = resultList.stream().map(statResult-> {
+				sectionStat.addFuelUsed(statResult.getFuelUsed());
+				sectionStat.addDistanceTravelled(statResult.getDistanceTravelled());
+				return new FuelStat(statResult);
+			}).collect(Collectors.toList());
+			sectionStat.setStatList(statList);
+			sectionStatList.add(sectionStat);
+			sectionMap.put(trackerId, sectionStatList);
+		}
+
+		report.setReportGen(reportGen);
+		report.setSectionInfoList(genSectionList);
+		report.setSectionDataMap(sectionMap);
+		return report;
+		
+	}
+*/	
 	
 	private ExportableReport<FuelEffRateStatSection> getFuelEffRateExportableReport(ReportGen reportGen) {
 		ExportableReport<FuelEffRateStatSection> report = new ExportableReport<>();

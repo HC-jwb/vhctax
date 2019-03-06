@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hc.fms.api.addon.model.ResponseContainer;
 import hc.fms.api.addon.model.ResponseStatus;
-import hc.fms.api.addon.report.entity.ReportGen;
-import hc.fms.api.addon.report.model.ExportableReport;
 import hc.fms.api.addon.report.service.FileExportService;
+import hc.fms.api.addon.report.service.TaxFileExportService;
 import hc.fms.api.addon.report.service.TrackerService;
 import hc.fms.api.addon.report.util.HttpUtil;
 import hc.fms.api.addon.vhctax.entity.ServiceTemplate;
@@ -41,6 +40,8 @@ public class VehicleTaxManagementController {
 	private TrackerService trackerService;
 	@Autowired
 	private FileExportService exportService;
+	@Autowired
+	private TaxFileExportService taxExportService;
 	
 	@Autowired
 	private VehicleTaxManagementService vhcTaxManagementService;
@@ -145,27 +146,32 @@ public class VehicleTaxManagementController {
 		return response;
 	}
 	
-/// excel test
-//	@RequestMapping("task/excel")
-//	public ResponseEntity<InputStreamResource> exportExcelTask(@RequestBody Map<String, String> searchCond) {
-//		//logger.info(searchCond.toString());
+// excel test
+	@RequestMapping("task/excel")
+	public ResponseEntity<InputStreamResource> exportExcelTask() {
+		System.out.println("In task/excel");
 //		String taskType = searchCond.get("taskType");
 //		String fromDate = searchCond.get("fromDate");
 //		String toDate = searchCond.get("toDate");
-//		System.out.println("in excel test code with List:  "+vhcTaxManagementService.listTaxTaskList(taskType, fromDate, toDate).toString());
-//		
-//		ExportableReport<?> reportSource = trackerService.getExportableTaxReport(vhcTaxManagementService.listTaxTaskList(taskType, fromDate, toDate));
-//		ReportGen reportGen = reportSource.getReportGen();
-//		ByteArrayInputStream in = exportService.exportToExcel(reportSource, true);
-//		HttpHeaders headers = new HttpHeaders();
-//		
-//		headers.add("Content-Disposition",String.format("attachment; filename=%s_%s_%s.xlsx", "Vehicle Tax report", reportGen.getFrom().substring(0, 10), reportGen.getTo().substring(0, 10)));
-//		return ResponseEntity
-//				.ok()
-//				.contentType(MediaType.parseMediaType("application/octet-stream"))
-//				.headers(headers).body(new InputStreamResource(in));
-//	}
-//	
+//		List<VehicleTaxTask> list = vhcTaxManagementService.listTaxTaskList(taskType, fromDate, toDate);
+		List<VehicleTaxTask> list = null;
+		ByteArrayInputStream in= taxExportService.exportToExcel(list);
+		
+		
+	
+		HttpHeaders headers = new HttpHeaders();
+		String filePrefix = "Tax_List"; 
+		headers.add("Content-Disposition",String.format("attachment; filename=%s_%s_%s.xlsx", filePrefix, "hello", "hello"));
+		return ResponseEntity
+				.ok()
+				.contentType(MediaType.parseMediaType("application/octet-stream"))
+				.headers(headers).body(new InputStreamResource(in));
+		//logger.info(searchCond.toString());
+	}
+	
+	
+	
+	
 	@PostMapping("task/remove")
 	public ResponseContainer<Void> removePaymentTaskList(@RequestBody List<Long> taskIdList) {
 		ResponseContainer<Void> response = new ResponseContainer<>();

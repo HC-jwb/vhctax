@@ -834,8 +834,8 @@ $(function() {
 
 	$downloadMenu.find(".excel-button").click(function() {
 		console.log("EXCEL download button is clicked");
-		exportExcel("taskListTable", "test");
-		// downloadExcelFile();
+//		exportExcel("taskListTable", "test");
+		downloadExcelFile();
 	});
 
 	$downloadMenu.find(".pdf-button").click(function() {
