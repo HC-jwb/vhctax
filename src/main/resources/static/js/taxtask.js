@@ -393,8 +393,7 @@ function buildTaskTable(taskList) {
 	for (var i = 0; i < taskList.length; i++) {
 		task = taskList[i];
 		$clonedTR = $TR.clone(false);
-		$clonedTR
-				.append("<td class='collapsing'><div class='ui task checkbox no-label'><input type='checkbox'></div></td>");
+		$clonedTR.append("<td class='collapsing'><div class='ui task checkbox no-label'><input type='checkbox'></div></td>");
 		$clonedTR.append("<td class='collapsing'>" + task.label + "</td>");
 		$clonedTR.append("<td class='collapsing'>" + task.model + "</td>");
 		$clonedTR.append("<td class='collapsing'>" + task.plateNo + "</td>");

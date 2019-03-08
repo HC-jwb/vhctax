@@ -35,7 +35,6 @@ public class VehicleTaxTask {
 	@Column(name="plate_no")
 	private String plateNo;
 	
-	
 	@Column(name="reg_no")
 	private String registrationNo;
 	private Double cost;
